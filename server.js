@@ -12,8 +12,6 @@ const io = socketIo(server);
 app.use('/uploads', express.static('uploads'));
 app.use(express.static('public'));
 
-
-
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/');
@@ -24,7 +22,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 
 // Upload route
 app.post('/upload', upload.single('file'), (req, res) => {
@@ -60,9 +57,8 @@ io.on('connection', (socket) => {
     });
 });
 
-
-// Start server
-const PORT = 3000;
+// Start server with dynamic port (for Render)
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
